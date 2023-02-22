@@ -3,6 +3,7 @@ import "./styles/main.scss";
 const form = document.createElement("form");
 const input = document.createElement("input");
 const input2 = document.createElement("input");
+const container = document.createElement("div");
 
 input.setAttribute("type", "text");
 input.setAttribute("id", "iid");
@@ -14,12 +15,12 @@ const app = document.querySelector("#root");
 app?.append(form);
 form.appendChild(input);
 form.appendChild(input2);
-
-
+app?.appendChild(container);
 
 const getImage = () => {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+    container.innerHTML = "";
     fetch(
       `https://api.unsplash.com/search/photos?client_id=u5bAUNTIlopz0D5NOD-mPjOdb-p7SXjvkS_xO76UEvE&query=${input.value}`
     )
@@ -28,7 +29,7 @@ const getImage = () => {
         response.results.forEach((item) => {
           const imageEl = document.createElement("img");
           imageEl.setAttribute("src", `${item.urls.thumb}`);
-          app?.appendChild(imageEl);
+          container?.appendChild(imageEl);
         });
       });
   });
