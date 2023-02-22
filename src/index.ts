@@ -52,9 +52,34 @@ const getImage = () => {
       .then((response) => response.json())
       .then((response) => {
         response.results.forEach((item) => {
-          const imageEl = document.createElement("img");
-          imageEl.setAttribute("src", `${item.urls.thumb}`);
-          container?.appendChild(imageEl);
+          const card = document.createElement("div");
+          card.classList.add("card", "flip-vertical");
+
+          const front = document.createElement("div");
+          front.classList.add("front");
+          front.style.backgroundImage = `url(${item.urls.thumb})`;
+          // const frontTitle = document.createElement('h1');
+          // frontTitle.classList.add('text-shadow');
+          // frontTitle.textContent = "Card Two";
+          // front.appendChild(frontTitle);
+
+          const back = document.createElement("div");
+          back.classList.add("back");
+          // const backTitle = document.createElement('h2');
+          // backTitle.textContent = "Heading";
+          const backText = document.createElement("p");
+          backText.textContent = `${item.alt_description}`;
+          // back.appendChild(backTitle);
+          back.appendChild(backText);
+
+          card.appendChild(front);
+          card.appendChild(back);
+
+          container?.appendChild(card);
+
+          // const imageEl = document.createElement("img");
+          // imageEl.setAttribute("src", `${item.urls.thumb}`);
+          // container?.appendChild(imageEl);
         });
       });
   });
