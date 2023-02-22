@@ -12,6 +12,7 @@ input.setAttribute("id", "iid");
 input2.setAttribute("type", "submit");
 input2.setAttribute("value", "Submit");
 // option.setAttribute("value", "deann");
+// localStorage.setItem("searchHistory", "");
 
 JSON.parse(localStorage.getItem("searchHistory")).forEach((item) => {
   const option = document.createElement("option");
@@ -35,8 +36,12 @@ const toLocalStorage = (arg) => {
   const searchHistory = JSON.parse(
     localStorage.getItem("searchHistory") || "[]"
   );
+  if (searchHistory.includes(arg)) {
+    return;
+  }
   searchHistory.push(arg);
-  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+  const newArray = searchHistory.slice(-5);
+  localStorage.setItem("searchHistory", JSON.stringify(newArray));
 };
 
 const getImage = () => {
@@ -58,24 +63,19 @@ const getImage = () => {
           const front = document.createElement("div");
           front.classList.add("front");
           front.style.backgroundImage = `url(${item.urls.thumb})`;
-          // const frontTitle = document.createElement('h1');
-          // frontTitle.classList.add('text-shadow');
-          // frontTitle.textContent = "Card Two";
-          // front.appendChild(frontTitle);
 
           const back = document.createElement("div");
           back.classList.add("back");
-          // const backTitle = document.createElement('h2');
-          // backTitle.textContent = "Heading";
           const backText = document.createElement("p");
           backText.textContent = `${item.alt_description}`;
-          // back.appendChild(backTitle);
           back.appendChild(backText);
 
           card.appendChild(front);
           card.appendChild(back);
 
           container?.appendChild(card);
+
+          input.value = "";
 
           // const imageEl = document.createElement("img");
           // imageEl.setAttribute("src", `${item.urls.thumb}`);
